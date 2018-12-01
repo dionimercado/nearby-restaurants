@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class Map extends Component {
   state = {
     mapCenter: { lat: -33.8688, lng: 151.2195 },
-    places: []
+    map: null
   };
   componentDidMount = () => {
     let map = new window.google.maps.Map(this.refs.map, {
@@ -11,16 +11,19 @@ export default class Map extends Component {
       zoom: 13,
       mapTypeId: "roadmap"
     });
+    map.addListener("click", event => {
+      console.log(event);
+    });
+    this.setState({ map });
 
     navigator.geolocation.getCurrentPosition(position => {
       const mapCenter = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+      map.setCenter(mapCenter);
 
       this.setState({ mapCenter });
-
-      map.setCenter(mapCenter);
 
       this.marker(mapCenter, map);
 
@@ -33,14 +36,17 @@ export default class Map extends Component {
           type: ["restaurant"]
         },
         (results, status) => {
-          // console.log("places", results);
-          this.createMarkers(results, map);
           this.props.fetchPlaces(results);
-          this.setState({ places: results });
           // console.log("places", results);
         }
       );
     });
+  };
+
+  componentWillReceiveProps = nextProps => {
+    console.log("props", nextProps.places);
+    // console.log("places", results);
+    this.createMarkers(nextProps.places, this.state.map);
   };
 
   render() {

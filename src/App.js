@@ -1,35 +1,24 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
-import Map from "./components/Map";
-import Places from "./components/Places";
+import Main from "./components/Main";
+import Place from "./components/Place";
 
 class App extends Component {
-  state = {
-    places: []
-  };
-
   render() {
     return (
       <div className="App">
-        <Header />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-9 px-0">
-              <Map fetchPlaces={this.fetchPlaces} />
-            </div>
-            <div className="col-md-3 px-0">
-              <Places places={this.state.places} />
-            </div>
+        <Router>
+          <div>
+            <Header />
+            <Route exact path="/" component={Main} />
+            <Route path="/:place_id" component={Place} />
           </div>
-        </div>
+        </Router>
       </div>
     );
   }
-
-  fetchPlaces = places => {
-    this.setState({ places });
-  };
 }
 
 export default App;
