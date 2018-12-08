@@ -47,9 +47,11 @@ export default class componentName extends Component {
     const { place, reviews, location } = this.state;
 
     let photos = [];
-    for (let photo in place.photos) {
-      photos.push(place.photos[photo].photo_reference);
-    }
+    !!place.photos > 0 &&
+      place.photos.map(photo =>
+        photos.push(photo.getUrl({ maxWidth: 800, maxHeight: 800 }))
+      );
+
     console.log("photos", photos);
 
     const hours = place.opening_hours.weekday_text.map((item, key) => (
@@ -86,11 +88,11 @@ export default class componentName extends Component {
                 >
                   {photos.splice(0, 9).map((photo, key) => (
                     <a
-                      href={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo}&key=AIzaSyBOmxUJzDrJvFM2ke39fTQe0tZdGcLh3Vk`}
+                      href={`${photo}`}
                       key={key}
                       className="place-gallery"
                       style={{
-                        background: `url('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo}&key=AIzaSyBOmxUJzDrJvFM2ke39fTQe0tZdGcLh3Vk') center center no-repeat`
+                        background: `url('${photo}') center center no-repeat`
                       }}
                     />
                   ))}
