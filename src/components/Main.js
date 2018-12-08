@@ -27,7 +27,7 @@ class Main extends Component {
           <div className="col-md-9 px-md-0">
             <Map
               fetchPlaces={this.fetchPlaces}
-              newPlace={this.props.newPlace}
+              newPlace={this.newPlace}
               places={
                 this.state.filter > 0
                   ? this.state.filteredPlaces
@@ -68,7 +68,7 @@ class Main extends Component {
 
   newPlace = data => {
     console.log("newPlace", data);
-    // this.setState({ places: [data, ...this.state.places] });
+    this.setState({ places: [data, ...this.state.places] });
   };
 }
 

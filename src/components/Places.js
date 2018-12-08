@@ -1,5 +1,6 @@
 import React from "react";
 import StarRatings from "react-star-ratings";
+import { Link } from "react-router-dom";
 
 export default ({ places, onChangeRating, filter }) => {
   return (
@@ -26,22 +27,45 @@ export default ({ places, onChangeRating, filter }) => {
         </li>
         {places.map(place => (
           <li key={place.id} className="list-group-item">
-            <h5>{place.name}</h5>
-            <div>
-              <span
-                className="badge badge-secondary position-relative mr-2"
-                style={{ bottom: "-3px" }}
-              >
-                {(place.rating * 1).toFixed(1)}
-              </span>
-              <StarRatings
-                rating={place.rating}
-                numberOfStars={5}
-                starRatedColor="orange"
-                starDimension="20px"
-                starSpacing="3px"
-              />
-            </div>
+            {place.place_id ? (
+              <Link to={place.place_id}>
+                <h5>{place.name}</h5>
+                <div>
+                  <span
+                    className="badge badge-secondary position-relative mr-2"
+                    style={{ bottom: "-3px" }}
+                  >
+                    {(place.rating * 1).toFixed(1)}
+                  </span>
+                  <StarRatings
+                    rating={place.rating}
+                    numberOfStars={5}
+                    starRatedColor="orange"
+                    starDimension="20px"
+                    starSpacing="3px"
+                  />
+                </div>
+              </Link>
+            ) : (
+              <div>
+                <h5>{place.name}</h5>
+                <div>
+                  <span
+                    className="badge badge-secondary position-relative mr-2"
+                    style={{ bottom: "-3px" }}
+                  >
+                    {(place.rating * 1).toFixed(1)}
+                  </span>
+                  <StarRatings
+                    rating={place.rating}
+                    numberOfStars={5}
+                    starRatedColor="orange"
+                    starDimension="20px"
+                    starSpacing="3px"
+                  />
+                </div>
+              </div>
+            )}
           </li>
         ))}
       </ul>
